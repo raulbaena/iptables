@@ -24,4 +24,13 @@ iptables -A INPUT -p tcp --dport 4080 -j ACCEPT
 iptables -A INPUT -p tcp --dport 5080 -s 192.168.2.56 -j DROP
 iptables -A INPUT -p tcp --dport 5080 -s 192.168.2.0/24 -j ACCEPT #Grup hisx
 iptables -A INPUT -p tcp --dport 5080 -j DROP
+#port 700 obert a tohom, tancat hisx2, obert i06
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.36 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.0/24 -j REJECT
+iptables -A INPUT -p tcp --dport 7080 -j ACCEPT
+#Exemple rango: tancar rang port 3000:8000
+#iptables -A INPUT -p tcp --dport 3000:8000 -j DROP
+#NO PUEDES PASAR SI EJECUTAS EL RANGO!
+#Regles OUTPUT
 
+#########################################################################

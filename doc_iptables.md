@@ -82,3 +82,44 @@ target     prot opt source               destination
 ACCEPT     all  --  anywhere             anywhere            
 ACCEPT     all  --  anywhere             www.baena.com       
 ```
+Creem 4 servidors web en xinetd amb la seguent configuracio
+```
+service http-bis
+{
+disable = no
+type = UNLISTED
+socket_type = stream
+protocol = tcp
+wait = no
+redirect = 192.168.2.42 80
+bind = 0.0.0.0
+port = 2080
+user = nobody
+}
+-rw-r--r--. 1 root root  162 Apr  1 12:28 httpd-5
+-rw-r--r--. 1 root root  164 Apr  1 12:26 httpd-bis
+-rw-r--r--. 1 root root  168 Apr  1 12:27 httpd-quatris
+-rw-r--r--. 1 root root  165 Apr  1 12:27 httpd-tris
+systemctl restart xinetd
+```
+Primer van les regles particulars y despres les generals
+
+Exemple que pot tothom menys el i26
+
+Clase 3/4/2019
+Exemples clase
+```
+#port 700 obert a tohom, tancat hisx2, obert i06
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.36 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.0/24 -j DROP
+iptables -A INPUT -p tcp --dport 7080 -j ACCEPT
+```
+
+Exemples output, hem creat un fitxer amb regles output
+```
+
+```
+POSTROUTING y PREROUTING
+- NAT: reglas PREROUTING, POSTROUTING
+- POSTROUTING SNAT
+
