@@ -37,8 +37,8 @@ iptables -A OUTPUT -p tcp -d 10.1.1.200 --dport 53 -m state --state NEW,ESTABLIS
 iptables -A INPUT  -p tcp -s 10.1.1.200 --sport 53 -m state --state ESTABLISHED     -j ACCEPT
 
 #dhclient(68)
-iptables -A INPUT -p tcp -m tcp --dport 68 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --sport 68 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 68 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 68 -j ACCEPT
 
 #ssh (22)
 iptables -A INPUT -p tcp --dport 22 -m state --state ESTABLISHED -j ACCEPT
@@ -62,31 +62,31 @@ iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 631 -j ACCEPT
 
 #xinetd 3411
 iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 3411 -j ACCEPT
-iptables -A OUTPUT -p tcp state --state NEW,ESTABLISHED  --sport 3411 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED  --sport 3411 -j ACCEPT
 
 #postgresql 5432
-iptables -A INPUT -p tcp --state ESTABLISHED --dport 5432 -j ACCEPT
-iptables -A OUTPUT -p tcp --state NEW,ESTABLISHED --sport 5432 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 5432 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED  --sport 5432 -j ACCEPT
 
 #x11forwarding 6010, 6011
-iptables -A INPUT -p tcp --state ESTABLISHED --dport 6010 -j ACCEPT
-iptables -A OUTPUT -p tcp --state NEW,ESTABLISHED --sport 6010 -j ACCEPT
-iptables -A INPUT -p tcp --state ESTABLISHED --dport 6011 -j ACCEPT
-iptables -A OUTPUT -p tcp --state NEW,ESTABLISHED --sport 6011 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 6010 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 6010 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 6011 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 6011 -j ACCEPT
 
 #avahi 368
-iptables -A INPUT -p tcp -m tcp --dport 368 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --sport 368 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 368 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 368 -j ACCEPT
 
 #alpes 462
-iptables -A INPUT -p tcp -m tcp --dport 462 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --sport 462 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 462 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 462 -j ACCEPT
 
 #tcpnethaspsrv 475
-iptables -A INPUT -p tcp -m tcp --dport 475 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --sport 475 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 475 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 475 -j ACCEPT
 
 #rxe 761
-iptables -A INPUT -p tcp -m tcp --dport 761 -j ACCEPT
-iptables -A OUTPUT -p tcp -m tcp --sport 761 -j ACCEPT
+iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 761 -j ACCEPT
+iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 761 -j ACCEPT
 
