@@ -29,20 +29,28 @@ iptables -A OUTPUT -d 192.168.2.42 -j ACCEPT
 # Consultem i obrim DNS
 iptables -A OUTPUT -p udp -d 192.168.0.10 --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT  -p udp -s 192.168.0.10  --sport 53 -m state --state ESTABLISHED     -j ACCEPT
-iptables -A OUTPUT -p tcp -d 192.168.0.10  --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT  -p tcp -s 192.168.0.10  --sport 53 -m state --state ESTABLISHED     -j ACCEPT
 iptables -A OUTPUT -p udp -d 10.1.1.200 --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT  -p udp -s 10.1.1.200 --sport 53 -m state --state ESTABLISHED     -j ACCEPT
-iptables -A OUTPUT -p tcp -d 10.1.1.200 --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A INPUT  -p tcp -s 10.1.1.200 --sport 53 -m state --state ESTABLISHED     -j ACCEPT
+iptables -A OUTPUT -p udp -d 208.67.222.222 --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT  -p udp -s 208.67.222.222 --sport 53 -m state --state ESTABLISHED     -j ACCEPT
 
 #dhclient(68)
-iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 68 -j ACCEPT
-iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 68 -j ACCEPT
+iptables -A INPUT -p udp -m state --state ESTABLISHED --dport 68 -j ACCEPT
+iptables -A OUTPUT -p udp -m state --state NEW,ESTABLISHED --sport 68 -j ACCEPT
+
+# icmp
+iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+
+#WEB
+iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --sport 80 -m tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --sport 443 -m tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 #ssh (22)
-iptables -A INPUT -p tcp --dport 22 -m state --state ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp5s0 -p tcp --dport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o enp5s0 -p tcp --sport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
 
 #rpc 111, 507
 iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 111 -j ACCEPT
@@ -90,3 +98,17 @@ iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 475 -j ACCEPT
 iptables -A INPUT -p tcp -m state --state ESTABLISHED --dport 761 -j ACCEPT
 iptables -A OUTPUT -p tcp -m state --state NEW,ESTABLISHED --sport 761 -j ACCEPT
 
+#ldap
+iptables -A OUTPUT -p tcp --dport 389 -j ACCEPT
+iptables -A INPUT -p tcp --sport 389 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 636 -j ACCEPT
+iptables -A INPUT -p tcp --sport 636 -j ACCEPT
+
+#kerberos
+iptables -A OUTPUT -p tcp --dport 88 -j ACCEPT
+iptables -A INPUT -p tcp --sport 88 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 464 -j ACCEPT
+iptables -A INPUT -p tcp --sport 464 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 749 -j ACCEPT
+iptables -A INPUT -p tcp --sport 749 -j ACCEPT
+#
